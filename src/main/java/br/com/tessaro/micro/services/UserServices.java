@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.tessaro.micro.entities.User;
 import br.com.tessaro.micro.repository.UserRepository;
+import br.com.tessaro.micro.services.exceptions.ResourceNotFoundExcepetion;
 
 @Service
 public class UserServices {
@@ -22,7 +23,7 @@ public class UserServices {
 	//GETID
 	public User findById (Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundExcepetion(id));
 	}
 	
 	//Post
