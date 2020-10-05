@@ -12,7 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+
+import br.com.tessaro.micro.entities.enums.OrderStatus;
 
 @Entity
 @Table(name = "tb_order")
@@ -30,16 +31,27 @@ public class Order implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+	private Integer orderStatus;
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus.getCode();
+	}
 
 	public Order() {
 	
 	}
 	
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, User client, OrderStatus status) {
 		super();
 		this.id = id;
 		this.moment = moment;
 		this.client = client;
+		setOrderStatus(status);
 	}
 
 	public Long getId() {
