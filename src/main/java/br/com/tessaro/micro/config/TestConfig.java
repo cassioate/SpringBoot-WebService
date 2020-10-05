@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import br.com.tessaro.micro.entities.Category;
 import br.com.tessaro.micro.entities.Order;
 import br.com.tessaro.micro.entities.OrderItem;
+import br.com.tessaro.micro.entities.Payment;
 import br.com.tessaro.micro.entities.Product;
 import br.com.tessaro.micro.entities.User;
 import br.com.tessaro.micro.entities.enums.OrderStatus;
@@ -82,6 +83,10 @@ public class TestConfig implements CommandLineRunner{
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T22:53:07Z"), o1);
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
 		
 	}
 	
