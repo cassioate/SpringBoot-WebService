@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.tessaro.micro.entities.User;
 import br.com.tessaro.micro.repository.UserRepository;
+import br.com.tessaro.micro.services.exceptions.DataBaseException;
 import br.com.tessaro.micro.services.exceptions.ResourceNotFoundExcepetion;
 
 @Service
@@ -52,7 +55,13 @@ public class UserServices {
 	
 	//DeleteID
 	public void deleteId(Long id) {
+		try {
 		repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundExcepetion(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
 	}
 	
 }
